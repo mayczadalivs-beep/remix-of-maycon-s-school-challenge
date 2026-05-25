@@ -376,15 +376,37 @@ function StartScreen({ name, setName, subject, setSubject, onStart, boardKey }: 
               className="comic-border mt-2 w-full max-w-sm rounded-xl bg-background px-4 py-3 text-2xl font-bold text-foreground outline-none placeholder:text-foreground/40"
             />
 
+            <div className="mt-5">
+              <label className="font-display block text-2xl text-foreground">MATÉRIA:</label>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {(["Ambas", "Matemática", "Português"] as SubjectChoice[]).map((s) => {
+                  const active = subject === s;
+                  const emoji = s === "Matemática" ? "➗" : s === "Português" ? "📖" : "🎲";
+                  return (
+                    <button
+                      key={s}
+                      onClick={() => setSubject(s)}
+                      className={`comic-border font-display rounded-xl px-4 py-2 text-lg transition-transform hover:-translate-y-0.5 ${
+                        active ? "bg-primary text-primary-foreground" : "bg-background text-foreground"
+                      }`}
+                    >
+                      {emoji} {s}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             <button
               onClick={onStart}
               disabled={!name.trim()}
-              className="comic-border-lg font-display mt-4 block rounded-2xl bg-primary px-10 py-4 text-3xl text-primary-foreground transition-transform hover:-translate-y-1 hover:rotate-[-1deg] disabled:cursor-not-allowed disabled:opacity-50"
+              className="comic-border-lg font-display mt-5 block rounded-2xl bg-primary px-10 py-4 text-3xl text-primary-foreground transition-transform hover:-translate-y-1 hover:rotate-[-1deg] disabled:cursor-not-allowed disabled:opacity-50"
             >
               COMEÇAR AULA ▶
             </button>
           </div>
         </div>
+
 
         <div className="flex flex-col gap-4">
           <div className="relative flex flex-col items-center justify-center">
