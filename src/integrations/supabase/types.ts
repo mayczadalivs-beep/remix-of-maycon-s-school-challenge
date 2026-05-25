@@ -14,7 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      scores: {
+        Row: {
+          created_at: string
+          id: string
+          player_name: string
+          score: number
+          survived: boolean
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          player_name: string
+          score?: number
+          survived?: boolean
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          player_name?: string
+          score?: number
+          survived?: boolean
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
