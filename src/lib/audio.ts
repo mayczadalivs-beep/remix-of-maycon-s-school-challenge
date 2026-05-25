@@ -69,6 +69,63 @@ export function playDing() {
   });
 }
 
+/** Fanfarra de vitória (5 notas ascendentes). */
+export function playCheer() {
+  const c = getCtx();
+  const now = c.currentTime;
+  const notes = [523.25, 659.25, 783.99, 1046.5, 1318.5];
+  notes.forEach((freq, i) => {
+    const o = c.createOscillator();
+    const g = c.createGain();
+    o.type = "square";
+    o.frequency.value = freq;
+    const t0 = now + i * 0.11;
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(0.35, t0 + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.28);
+    o.connect(g).connect(c.destination);
+    o.start(t0);
+    o.stop(t0 + 0.32);
+  });
+}
+
+/** Buzina de erro (descida grave). */
+export function playBuzzer() {
+  const c = getCtx();
+  const now = c.currentTime;
+  const o = c.createOscillator();
+  const g = c.createGain();
+  o.type = "sawtooth";
+  o.frequency.setValueAtTime(220, now);
+  o.frequency.exponentialRampToValueAtTime(70, now + 0.45);
+  g.gain.setValueAtTime(0.0001, now);
+  g.gain.exponentialRampToValueAtTime(0.45, now + 0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+  o.connect(g).connect(c.destination);
+  o.start(now);
+  o.stop(now + 0.55);
+}
+
+/** Som de game over triste (3 notas descendentes). */
+export function playGameOver() {
+  const c = getCtx();
+  const now = c.currentTime;
+  const notes = [440, 349.23, 261.63];
+  notes.forEach((freq, i) => {
+    const o = c.createOscillator();
+    const g = c.createGain();
+    o.type = "triangle";
+    o.frequency.value = freq;
+    const t0 = now + i * 0.22;
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(0.5, t0 + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.55);
+    o.connect(g).connect(c.destination);
+    o.start(t0);
+    o.stop(t0 + 0.6);
+  });
+}
+
 /** Música ambiente suave em loop (pad de acordes em Lá maior). */
 export function startMusic() {
   if (musicNodes) return;
