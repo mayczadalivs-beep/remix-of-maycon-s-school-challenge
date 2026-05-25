@@ -143,6 +143,7 @@ function Index() {
       setFeedback("wrong");
       setLives((l) => l - 1);
       playSmack();
+      playBuzzer();
     }
     setTimeout(() => {
       setShowHint(false);
