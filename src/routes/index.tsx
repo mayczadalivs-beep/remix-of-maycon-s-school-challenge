@@ -112,6 +112,9 @@ function Index() {
     }
   }, [finished]);
 
+  useEffect(() => () => stopMusic(), []);
+
+
 
   function toggleMusic() {
     if (isMusicPlaying()) { stopMusic(); setMusicOn(false); }
