@@ -405,30 +405,34 @@ function StartScreen({ name, setName, onStart, boardKey }: { name: string; setNa
   );
 }
 
-function EndScreen({ name, score, survived, onRestart }: { name: string; score: number; survived: boolean; onRestart: () => void }) {
+function EndScreen({ name, score, survived, onRestart, savedId, boardKey }: { name: string; score: number; survived: boolean; onRestart: () => void; savedId: string | null; boardKey: number }) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-secondary px-4 py-10">
-      <div className="comic-border-lg w-full max-w-xl rounded-3xl bg-background p-8 text-center">
-        <h2 className="font-display text-5xl text-primary drop-shadow-[3px_3px_0_#1a1a2e]">
-          {survived ? `${name.toUpperCase()} VENCEU!` : `${name.toUpperCase()} RODOU!`}
-        </h2>
-        <p className="mt-3 text-lg font-semibold text-foreground/80">
-          {survived
-            ? "MAYCON LINDÃO está orgulhoso de você. 👏"
-            : "MAYCON LINDÃO acabou com a régua… amanhã tem aula de novo. 📏😤"}
-        </p>
-        <div className="comic-border font-display mx-auto mt-6 inline-block rounded-2xl bg-primary px-8 py-3 text-3xl text-primary-foreground">
-          {score} pontos
+    <div className="flex min-h-screen items-start justify-center bg-secondary px-4 py-10">
+      <div className="grid w-full max-w-4xl gap-6 md:grid-cols-2">
+        <div className="comic-border-lg rounded-3xl bg-background p-6 text-center sm:p-8">
+          <h2 className="font-display text-4xl text-primary drop-shadow-[3px_3px_0_#1a1a2e] sm:text-5xl">
+            {survived ? `${name.toUpperCase()} VENCEU!` : `${name.toUpperCase()} RODOU!`}
+          </h2>
+          <p className="mt-3 text-lg font-semibold text-foreground/80">
+            {survived
+              ? "MAYCON LINDÃO está orgulhoso de você. 👏"
+              : "MAYCON LINDÃO acabou com a régua… amanhã tem aula de novo. 📏😤"}
+          </p>
+          <div className="comic-border font-display mx-auto mt-6 inline-block rounded-2xl bg-primary px-8 py-3 text-3xl text-primary-foreground">
+            {score} pontos
+          </div>
+          <div className="mt-6 flex justify-center">
+            <img src={survived ? madson : mayconRuler} alt="" width={300} height={300} className="h-44 w-44 object-contain sm:h-56 sm:w-56" />
+          </div>
+          <button
+            onClick={onRestart}
+            className="comic-border-lg font-display mt-6 rounded-2xl bg-primary px-8 py-3 text-2xl text-primary-foreground transition-transform hover:-translate-y-1"
+          >
+            JOGAR DE NOVO ↻
+          </button>
         </div>
-        <div className="mt-6 flex justify-center">
-          <img src={survived ? madson : mayconRuler} alt="" width={300} height={300} className="h-56 w-56 object-contain" />
-        </div>
-        <button
-          onClick={onRestart}
-          className="comic-border-lg font-display mt-6 rounded-2xl bg-primary px-8 py-3 text-2xl text-primary-foreground transition-transform hover:-translate-y-1"
-        >
-          JOGAR DE NOVO ↻
-        </button>
+
+        <Leaderboard highlightId={savedId} refreshKey={boardKey} />
       </div>
     </div>
   );
