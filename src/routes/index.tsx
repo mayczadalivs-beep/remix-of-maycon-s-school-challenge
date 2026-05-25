@@ -339,6 +339,12 @@ function StartScreen({ name, setName, onStart }: { name: string; setName: (v: st
             com a <b>régua</b>… 📏
           </p>
 
+          <ul className="mt-5 space-y-2 text-foreground">
+            <li className="flex items-center gap-2"><span className="font-display text-2xl text-primary">❤</span> 3 vidas para não rodar de ano</li>
+            <li className="flex items-center gap-2"><span className="font-display text-2xl text-primary">💡</span> 3 dicas quando travar</li>
+            <li className="flex items-center gap-2"><span className="font-display text-2xl text-primary">🏆</span> 10 pontos por acerto</li>
+          </ul>
+
           <div className="mt-6">
             <label className="font-display block text-2xl text-foreground">SEU NOME:</label>
             <input
@@ -348,21 +354,15 @@ function StartScreen({ name, setName, onStart }: { name: string; setName: (v: st
               placeholder="Digite aqui..."
               className="comic-border mt-2 w-full max-w-sm rounded-xl bg-background px-4 py-3 text-2xl font-bold text-foreground outline-none placeholder:text-foreground/40"
             />
+
+            <button
+              onClick={onStart}
+              disabled={!name.trim()}
+              className="comic-border-lg font-display mt-4 block rounded-2xl bg-primary px-10 py-4 text-3xl text-primary-foreground transition-transform hover:-translate-y-1 hover:rotate-[-1deg] disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              COMEÇAR AULA ▶
+            </button>
           </div>
-
-          <ul className="mt-6 space-y-2 text-foreground">
-            <li className="flex items-center gap-2"><span className="font-display text-2xl text-primary">❤</span> 3 vidas para não rodar de ano</li>
-            <li className="flex items-center gap-2"><span className="font-display text-2xl text-primary">💡</span> 3 dicas quando travar</li>
-            <li className="flex items-center gap-2"><span className="font-display text-2xl text-primary">🏆</span> 10 pontos por acerto</li>
-          </ul>
-
-          <button
-            onClick={onStart}
-            disabled={!name.trim()}
-            className="comic-border-lg font-display mt-8 rounded-2xl bg-primary px-10 py-4 text-3xl text-primary-foreground transition-transform hover:-translate-y-1 hover:rotate-[-1deg] disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            COMEÇAR AULA ▶
-          </button>
         </div>
 
         <div className="relative flex flex-col items-center justify-center">
