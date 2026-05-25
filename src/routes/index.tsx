@@ -106,7 +106,9 @@ function Index() {
 
   useEffect(() => {
     if (finished) {
-      saveScore(playerName, score, lives > 0).then((id) => {
+      const survived = lives > 0;
+      if (survived) playCheer(); else playGameOver();
+      saveScore(playerName, score, survived).then((id) => {
         setSavedId(id);
         setBoardKey((k) => k + 1);
       });
