@@ -88,6 +88,7 @@ function Index() {
   const ROUND_SIZE = 10;
   const [started, setStarted] = useState(false);
   const [playerName, setPlayerName] = useState("");
+  const [subject, setSubject] = useState<"Ambas" | "Matemática" | "Português">("Ambas");
   const [questions, setQuestions] = useState<Question[]>([]);
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
@@ -123,12 +124,14 @@ function Index() {
 
   function start() {
     if (!playerName.trim()) return;
-    setQuestions(shuffle(ALL_QUESTIONS).slice(0, ROUND_SIZE));
+    const pool = subject === "Ambas" ? ALL_QUESTIONS : ALL_QUESTIONS.filter((x) => x.subject === subject);
+    setQuestions(shuffle(pool).slice(0, ROUND_SIZE));
     setStarted(true); setIdx(0); setScore(0); setLives(3);
     setShowHint(false); setHintsLeft(3); setFeedback("none"); setFinished(false);
     setSavedId(null);
     startMusic();
   }
+
 
   function answer(i: number) {
     if (feedback !== "none") return;
@@ -163,7 +166,7 @@ function Index() {
   }
 
   if (!started) {
-    return <StartScreen name={playerName} setName={setPlayerName} onStart={start} boardKey={boardKey} />;
+    return <StartScreen name={playerName} setName={setPlayerName} subject={subject} setSubject={setSubject} onStart={start} boardKey={boardKey} />;
   }
 
   if (finished) {
@@ -332,7 +335,8 @@ function MayconAttack({ name }: { name: string }) {
   );
 }
 
-function StartScreen({ name, setName, onStart, boardKey }: { name: string; setName: (v: string) => void; onStart: () => void; boardKey: number }) {
+type SubjectChoice = "Ambas" | "Matemática" | "Português";
+function StartScreen({ name, setName, subject, setSubject, onStart, boardKey }: { name: string; setName: (v: string) => void; subject: SubjectChoice; setSubject: (v: SubjectChoice) => void; onStart: () => void; boardKey: number }) {
   return (
     <div
       className="relative min-h-screen w-full overflow-hidden bg-cover bg-center px-4 py-10"
@@ -372,15 +376,37 @@ function StartScreen({ name, setName, onStart, boardKey }: { name: string; setNa
               className="comic-border mt-2 w-full max-w-sm rounded-xl bg-background px-4 py-3 text-2xl font-bold text-foreground outline-none placeholder:text-foreground/40"
             />
 
+            <div className="mt-5">
+              <label className="font-display block text-2xl text-foreground">MATÉRIA:</label>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {(["Ambas", "Matemática", "Português"] as SubjectChoice[]).map((s) => {
+                  const active = subject === s;
+                  const emoji = s === "Matemática" ? "➗" : s === "Português" ? "📖" : "🎲";
+                  return (
+                    <button
+                      key={s}
+                      onClick={() => setSubject(s)}
+                      className={`comic-border font-display rounded-xl px-4 py-2 text-lg transition-transform hover:-translate-y-0.5 ${
+                        active ? "bg-primary text-primary-foreground" : "bg-background text-foreground"
+                      }`}
+                    >
+                      {emoji} {s}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             <button
               onClick={onStart}
               disabled={!name.trim()}
-              className="comic-border-lg font-display mt-4 block rounded-2xl bg-primary px-10 py-4 text-3xl text-primary-foreground transition-transform hover:-translate-y-1 hover:rotate-[-1deg] disabled:cursor-not-allowed disabled:opacity-50"
+              className="comic-border-lg font-display mt-5 block rounded-2xl bg-primary px-10 py-4 text-3xl text-primary-foreground transition-transform hover:-translate-y-1 hover:rotate-[-1deg] disabled:cursor-not-allowed disabled:opacity-50"
             >
               COMEÇAR AULA ▶
             </button>
           </div>
         </div>
+
 
         <div className="flex flex-col gap-4">
           <div className="relative flex flex-col items-center justify-center">
