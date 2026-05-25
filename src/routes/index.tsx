@@ -124,12 +124,14 @@ function Index() {
 
   function start() {
     if (!playerName.trim()) return;
-    setQuestions(shuffle(ALL_QUESTIONS).slice(0, ROUND_SIZE));
+    const pool = subject === "Ambas" ? ALL_QUESTIONS : ALL_QUESTIONS.filter((x) => x.subject === subject);
+    setQuestions(shuffle(pool).slice(0, ROUND_SIZE));
     setStarted(true); setIdx(0); setScore(0); setLives(3);
     setShowHint(false); setHintsLeft(3); setFeedback("none"); setFinished(false);
     setSavedId(null);
     startMusic();
   }
+
 
   function answer(i: number) {
     if (feedback !== "none") return;
