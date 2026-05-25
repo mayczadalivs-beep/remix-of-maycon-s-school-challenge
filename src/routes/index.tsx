@@ -213,7 +213,8 @@ function Index() {
         </div>
 
         {/* Question card */}
-        <div className={`comic-border-lg relative rounded-3xl bg-background p-6 sm:p-8 ${feedback === "wrong" ? "animate-shake" : ""}`}>
+        <div className={`comic-border-lg relative rounded-3xl bg-background p-6 sm:p-8 overflow-hidden ${feedback === "wrong" ? "animate-shake" : ""} ${feedback === "right" ? "animate-right-flash" : ""}`}>
+          {feedback === "right" && <CorrectBurst />}
           <span className="font-display absolute -top-4 left-6 rounded-full bg-primary px-4 py-1 text-xl text-primary-foreground">
             {q.subject}
           </span>
