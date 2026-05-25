@@ -100,8 +100,18 @@ function Index() {
   const q = questions[idx];
   const progress = useMemo(() => (questions.length ? (idx / questions.length) * 100 : 0), [idx, questions.length]);
   const [musicOn, setMusicOn] = useState(true);
+  const [savedId, setSavedId] = useState<string | null>(null);
+  const [boardKey, setBoardKey] = useState(0);
 
-  useEffect(() => () => stopMusic(), []);
+  useEffect(() => {
+    if (finished) {
+      saveScore(playerName, score, lives > 0).then((id) => {
+        setSavedId(id);
+        setBoardKey((k) => k + 1);
+      });
+    }
+  }, [finished]);
+
 
   function toggleMusic() {
     if (isMusicPlaying()) { stopMusic(); setMusicOn(false); }
