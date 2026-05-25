@@ -163,12 +163,14 @@ function Index() {
   }
 
   if (!started) {
-    return <StartScreen name={playerName} setName={setPlayerName} onStart={start} />;
+    return <StartScreen name={playerName} setName={setPlayerName} onStart={start} boardKey={boardKey} />;
   }
 
   if (finished) {
-    return <EndScreen name={playerName} score={score} survived={lives > 0} onRestart={start} />;
+    return <EndScreen name={playerName} score={score} survived={lives > 0} onRestart={start} savedId={savedId} boardKey={boardKey} />;
   }
+
+
 
   return (
     <div
