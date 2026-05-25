@@ -4,7 +4,7 @@ import maycon from "@/assets/maycon.png";
 import mayconRuler from "@/assets/maycon-ruler.png";
 import madson from "@/assets/madson.png";
 import classroom from "@/assets/classroom.jpg";
-import { playSmack, playDing, startMusic, stopMusic, isMusicPlaying } from "@/lib/audio";
+import { playSmack, playDing, playBuzzer, playCheer, playGameOver, startMusic, stopMusic, isMusicPlaying } from "@/lib/audio";
 import { Leaderboard, saveScore } from "@/components/Leaderboard";
 
 export const Route = createFileRoute("/")({
