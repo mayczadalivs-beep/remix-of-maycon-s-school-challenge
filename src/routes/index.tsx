@@ -275,6 +275,45 @@ function Badge({ label, value }: { label: string; value: string }) {
   );
 }
 
+function CorrectBurst() {
+  const confetti = useMemo(
+    () =>
+      Array.from({ length: 22 }, (_, i) => ({
+        left: Math.random() * 100,
+        dx: (Math.random() - 0.5) * 200,
+        duration: 1.4 + Math.random() * 1.2,
+        delay: Math.random() * 0.15,
+        emoji: ["🎉", "⭐", "✨", "🌟", "💫", "🟡", "🟠"][i % 7],
+      })),
+    [],
+  );
+  return (
+    <>
+      <div className="pointer-events-none absolute left-1/2 top-1/2 z-30">
+        <div className="animate-score-pop font-display rotate-[-4deg] rounded-2xl border-[6px] border-foreground bg-green-400 px-6 py-2 text-3xl text-foreground shadow-[6px_6px_0_0_#1a1a2e] sm:text-4xl">
+          +10! 🎯
+        </div>
+      </div>
+      <div className="pointer-events-none absolute inset-0 z-20 overflow-hidden">
+        {confetti.map((c, i) => (
+          <span
+            key={i}
+            className="animate-confetti absolute -top-4 text-2xl"
+            style={{
+              left: `${c.left}%`,
+              animationDuration: `${c.duration}s`,
+              animationDelay: `${c.delay}s`,
+              ['--dx' as string]: `${c.dx}px`,
+            }}
+          >
+            {c.emoji}
+          </span>
+        ))}
+      </div>
+    </>
+  );
+}
+
 function MayconAttack({ name }: { name: string }) {
   const stars = [
     { dx: -120, dy: -80, char: "✦" },
