@@ -166,7 +166,7 @@ function Index() {
   }
 
   if (!started) {
-    return <StartScreen name={playerName} setName={setPlayerName} onStart={start} boardKey={boardKey} />;
+    return <StartScreen name={playerName} setName={setPlayerName} subject={subject} setSubject={setSubject} onStart={start} boardKey={boardKey} />;
   }
 
   if (finished) {
