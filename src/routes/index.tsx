@@ -88,6 +88,7 @@ function Index() {
   const ROUND_SIZE = 10;
   const [started, setStarted] = useState(false);
   const [playerName, setPlayerName] = useState("");
+  const [subject, setSubject] = useState<"Ambas" | "Matemática" | "Português">("Ambas");
   const [questions, setQuestions] = useState<Question[]>([]);
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
