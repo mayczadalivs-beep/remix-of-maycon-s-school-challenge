@@ -382,20 +382,23 @@ function StartScreen({ name, setName, onStart, boardKey }: { name: string; setNa
           </div>
         </div>
 
-        <div className="relative flex flex-col items-center justify-center">
-          <div className="font-display z-10 mb-2 text-3xl font-bold text-foreground drop-shadow-[3px_3px_0_#1a1a2e] sm:text-4xl">
-            MAYCON LINDÃO
+        <div className="flex flex-col gap-4">
+          <div className="relative flex flex-col items-center justify-center">
+            <div className="font-display z-10 mb-2 text-3xl font-bold text-foreground drop-shadow-[3px_3px_0_#1a1a2e] sm:text-4xl">
+              MAYCON LINDÃO
+            </div>
+            <img
+              src={mayconRuler}
+              alt="MAYCON LINDÃO"
+              width={768}
+              height={768}
+              className="animate-float h-56 w-56 object-contain drop-shadow-[8px_8px_0_rgba(26,26,46,0.4)] sm:h-72 sm:w-72"
+            />
+            <div className="comic-border font-display absolute right-0 top-10 rotate-[6deg] rounded-2xl bg-background px-4 py-2 text-lg text-foreground">
+              "Não erra, hein! 📏😎"
+            </div>
           </div>
-          <img
-            src={mayconRuler}
-            alt="MAYCON LINDÃO"
-            width={768}
-            height={768}
-            className="animate-float h-[28rem] w-[28rem] object-contain drop-shadow-[8px_8px_0_rgba(26,26,46,0.4)]"
-          />
-          <div className="comic-border font-display absolute right-0 top-16 rotate-[6deg] rounded-2xl bg-background px-4 py-2 text-xl text-foreground">
-            "Não erra, hein! 📏😎"
-          </div>
+          <Leaderboard refreshKey={boardKey} />
         </div>
       </div>
     </div>
