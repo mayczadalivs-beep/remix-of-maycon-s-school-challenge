@@ -335,7 +335,8 @@ function MayconAttack({ name }: { name: string }) {
   );
 }
 
-function StartScreen({ name, setName, onStart, boardKey }: { name: string; setName: (v: string) => void; onStart: () => void; boardKey: number }) {
+type SubjectChoice = "Ambas" | "Matemática" | "Português";
+function StartScreen({ name, setName, subject, setSubject, onStart, boardKey }: { name: string; setName: (v: string) => void; subject: SubjectChoice; setSubject: (v: SubjectChoice) => void; onStart: () => void; boardKey: number }) {
   return (
     <div
       className="relative min-h-screen w-full overflow-hidden bg-cover bg-center px-4 py-10"
