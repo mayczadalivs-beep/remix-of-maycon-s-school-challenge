@@ -126,6 +126,7 @@ function Index() {
     setQuestions(shuffle(ALL_QUESTIONS).slice(0, ROUND_SIZE));
     setStarted(true); setIdx(0); setScore(0); setLives(3);
     setShowHint(false); setHintsLeft(3); setFeedback("none"); setFinished(false);
+    setSavedId(null);
     startMusic();
   }
 
