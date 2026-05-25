@@ -478,30 +478,93 @@ function EndScreen({ name, score, survived, onRestart, savedId, boardKey }: { na
   return (
     <div className="flex min-h-screen items-start justify-center bg-secondary px-4 py-10">
       <div className="grid w-full max-w-4xl gap-6 md:grid-cols-2">
-        <div className="comic-border-lg rounded-3xl bg-background p-6 text-center sm:p-8">
-          <h2 className="font-display text-4xl text-primary drop-shadow-[3px_3px_0_#1a1a2e] sm:text-5xl">
-            {survived ? `${name.toUpperCase()} VENCEU!` : `${name.toUpperCase()} RODOU!`}
-          </h2>
-          <p className="mt-3 text-lg font-semibold text-foreground/80">
-            {survived
-              ? "MAYCON LINDÃO está orgulhoso de você. 👏"
-              : "MAYCON LINDÃO acabou com a régua… amanhã tem aula de novo. 📏😤"}
-          </p>
-          <div className="comic-border font-display mx-auto mt-6 inline-block rounded-2xl bg-primary px-8 py-3 text-3xl text-primary-foreground">
-            {score} pontos
+        <div className="flex flex-col gap-6">
+          <div className="comic-border-lg rounded-3xl bg-background p-6 text-center sm:p-8">
+            <h2 className="font-display text-4xl text-primary drop-shadow-[3px_3px_0_#1a1a2e] sm:text-5xl">
+              {survived ? `${name.toUpperCase()} VENCEU!` : `${name.toUpperCase()} RODOU!`}
+            </h2>
+            <p className="mt-3 text-lg font-semibold text-foreground/80">
+              {survived
+                ? "MAYCON LINDÃO está orgulhoso de você. 👏"
+                : "MAYCON LINDÃO acabou com a régua… amanhã tem aula de novo. 📏😤"}
+            </p>
+            <div className="comic-border font-display mx-auto mt-6 inline-block rounded-2xl bg-primary px-8 py-3 text-3xl text-primary-foreground">
+              {score} pontos
+            </div>
+            <div className="mt-6 flex justify-center">
+              <img src={survived ? madson : mayconRuler} alt="" width={300} height={300} className="h-44 w-44 object-contain sm:h-56 sm:w-56" />
+            </div>
+            <button
+              onClick={onRestart}
+              className="comic-border-lg font-display mt-6 rounded-2xl bg-primary px-8 py-3 text-2xl text-primary-foreground transition-transform hover:-translate-y-1"
+            >
+              JOGAR DE NOVO ↻
+            </button>
           </div>
-          <div className="mt-6 flex justify-center">
-            <img src={survived ? madson : mayconRuler} alt="" width={300} height={300} className="h-44 w-44 object-contain sm:h-56 sm:w-56" />
-          </div>
-          <button
-            onClick={onRestart}
-            className="comic-border-lg font-display mt-6 rounded-2xl bg-primary px-8 py-3 text-2xl text-primary-foreground transition-transform hover:-translate-y-1"
-          >
-            JOGAR DE NOVO ↻
-          </button>
+
+          <ShareCard name={name} score={score} survived={survived} />
         </div>
 
         <Leaderboard highlightId={savedId} refreshKey={boardKey} />
+      </div>
+    </div>
+  );
+}
+
+function ShareCard({ name, score, survived }: { name: string; score: number; survived: boolean }) {
+  const [copied, setCopied] = useState(false);
+  const message = survived
+    ? `🏆 ${name.toUpperCase()} venceu o MAYCON LINDÃO com ${score} pontos na ESCOLA DO MAYCON LINDÃO! Tenta superar! 📏😎`
+    : `📏 O MAYCON LINDÃO rodou ${name.toUpperCase()} (${score} pts) na ESCOLA DO MAYCON LINDÃO. Será que você sobrevive? 😱`;
+  const url = typeof window !== "undefined" ? window.location.origin : "";
+  const fullText = `${message} ${url}`;
+
+  async function share() {
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "ESCOLA DO MAYCON LINDÃO", text: message, url });
+      } else {
+        await navigator.clipboard.writeText(fullText);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1800);
+      }
+    } catch {
+      // user cancelled or denied
+    }
+  }
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(fullText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {}
+  }
+
+  return (
+    <div className="comic-border-lg rounded-3xl bg-background p-5 sm:p-6">
+      <div className="font-display mb-2 text-2xl text-foreground">📣 COMPARTILHAR RESULTADO</div>
+      <div className="comic-border rounded-2xl bg-secondary p-4 text-foreground">
+        <div className="font-display text-3xl text-primary drop-shadow-[2px_2px_0_#1a1a2e]">
+          {survived ? "🏆 SOBREVIVEU!" : "📏 RODOU!"}
+        </div>
+        <div className="font-display mt-1 text-xl">{name.toUpperCase()}</div>
+        <div className="mt-2 text-sm font-semibold text-foreground/80">{message}</div>
+        <div className="font-display mt-3 text-3xl text-foreground">{score} pts</div>
+      </div>
+      <div className="mt-4 flex flex-wrap gap-2">
+        <button
+          onClick={share}
+          className="comic-border font-display rounded-xl bg-primary px-4 py-2 text-lg text-primary-foreground transition-transform hover:-translate-y-0.5"
+        >
+          📤 Compartilhar
+        </button>
+        <button
+          onClick={copy}
+          className="comic-border font-display rounded-xl bg-background px-4 py-2 text-lg text-foreground transition-transform hover:-translate-y-0.5"
+        >
+          {copied ? "✅ Copiado!" : "📋 Copiar texto"}
+        </button>
       </div>
     </div>
   );
