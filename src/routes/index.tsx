@@ -380,6 +380,12 @@ function MayconAttack({ name }: { name: string }) {
 
 type SubjectChoice = "Ambas" | "Matemática" | "Português";
 function StartScreen({ name, setName, subject, setSubject, onStart, boardKey }: { name: string; setName: (v: string) => void; subject: SubjectChoice; setSubject: (v: SubjectChoice) => void; onStart: () => void; boardKey: number }) {
+  const [pickingSubject, setPickingSubject] = useState(false);
+  const handleStartClick = () => {
+    if (!name.trim()) return;
+    if (!pickingSubject) { setPickingSubject(true); return; }
+    onStart();
+  };
   return (
     <div
       className="relative min-h-screen w-full overflow-hidden bg-cover bg-center px-4 py-10"
