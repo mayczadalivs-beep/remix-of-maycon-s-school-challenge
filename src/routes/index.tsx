@@ -425,38 +425,55 @@ function StartScreen({ name, setName, subject, setSubject, onStart, boardKey }: 
               className="comic-border mt-2 w-full max-w-sm rounded-xl bg-background px-4 py-3 text-2xl font-bold text-foreground outline-none placeholder:text-foreground/40"
             />
 
-            {pickingSubject && (
-              <div className="mt-5 animate-score-pop">
-                <label className="font-display block text-2xl text-foreground">MATÉRIA:</label>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {(["Ambas", "Matemática", "Português"] as SubjectChoice[]).map((s) => {
-                    const active = subject === s;
-                    const emoji = s === "Matemática" ? "➗" : s === "Português" ? "📖" : "🎲";
-                    return (
-                      <button
-                        key={s}
-                        onClick={() => setSubject(s)}
-                        className={`comic-border font-display rounded-xl px-4 py-2 text-lg transition-transform hover:-translate-y-0.5 ${
-                          active ? "bg-primary text-primary-foreground" : "bg-background text-foreground"
-                        }`}
-                      >
-                        {emoji} {s}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
             <button
               onClick={handleStartClick}
               disabled={!name.trim()}
               className="comic-border-lg font-display mt-5 block rounded-2xl bg-primary px-10 py-4 text-3xl text-primary-foreground transition-transform hover:-translate-y-1 hover:rotate-[-1deg] disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {pickingSubject ? "COMEÇAR AULA ▶" : "INICIAR ▶"}
+              INICIAR ▶
             </button>
           </div>
         </div>
+
+      {pickingSubject && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 animate-flash-bg" onClick={() => setPickingSubject(false)}>
+          <div
+            className="comic-border-lg w-full max-w-md rounded-3xl bg-background p-6 sm:p-8 animate-score-pop"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="font-display text-3xl text-primary drop-shadow-[3px_3px_0_#1a1a2e] sm:text-4xl">
+              ESCOLHA A MATÉRIA
+            </h3>
+            <p className="mt-2 text-sm font-semibold text-foreground/70">
+              Qual aula você vai encarar hoje?
+            </p>
+            <div className="mt-5 grid gap-3">
+              {(["Ambas", "Matemática", "Português"] as SubjectChoice[]).map((s) => {
+                const active = subject === s;
+                const emoji = s === "Matemática" ? "➗" : s === "Português" ? "📖" : "🎲";
+                return (
+                  <button
+                    key={s}
+                    onClick={() => { setSubject(s); onStart(); }}
+                    className={`comic-border font-display rounded-xl px-4 py-3 text-xl transition-transform hover:-translate-y-0.5 ${
+                      active ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground"
+                    }`}
+                  >
+                    {emoji} {s}
+                  </button>
+                );
+              })}
+            </div>
+            <button
+              onClick={() => setPickingSubject(false)}
+              className="font-display mt-5 text-sm text-foreground/60 underline"
+            >
+              cancelar
+            </button>
+          </div>
+        </div>
+      )}
+
 
 
 
