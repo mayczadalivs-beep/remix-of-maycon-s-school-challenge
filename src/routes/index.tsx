@@ -171,7 +171,6 @@ function Index() {
   if (!started) {
     return <StartScreen name={playerName} setName={setPlayerName} subject={subject} setSubject={setSubject} onStart={start} boardKey={boardKey} />;
   }
-  void 0;
 
   if (finished) {
     return <EndScreen name={playerName} score={score} survived={lives > 0} onRestart={start} savedId={savedId} boardKey={boardKey} />;
