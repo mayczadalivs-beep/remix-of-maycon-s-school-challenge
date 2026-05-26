@@ -388,52 +388,79 @@ function StartScreen({ name, setName, subject, setSubject, onStart, boardKey }: 
   };
   return (
     <div
-      className="relative min-h-screen w-full overflow-hidden bg-cover bg-center px-4 py-10"
+      className="relative min-h-screen w-full overflow-hidden bg-cover bg-center px-4 py-4 sm:py-10"
       style={{ backgroundImage: `linear-gradient(rgba(255,235,160,0.85), rgba(255,180,140,0.85)), url(${classroom})` }}
     >
-      <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-2">
-        <div>
-          <span className="comic-border font-display inline-block rounded-full bg-primary px-4 py-1 text-lg text-primary-foreground">
+      <div className="mx-auto grid max-w-6xl items-center gap-4 md:gap-10 md:grid-cols-2">
+        {/* Maycon — shown FIRST on mobile so the face is visible without scrolling */}
+        <div className="order-1 flex flex-col gap-4 md:order-2">
+          <div className="relative flex flex-col items-center justify-center">
+            <div className="font-display z-10 mb-1 text-2xl font-bold text-foreground drop-shadow-[3px_3px_0_#1a1a2e] sm:mb-2 sm:text-4xl">
+              MAYCON LINDÃO
+            </div>
+            <img
+              src={mayconRuler}
+              alt="MAYCON LINDÃO"
+              width={768}
+              height={768}
+              className="animate-float h-36 w-36 object-contain drop-shadow-[8px_8px_0_rgba(26,26,46,0.4)] sm:h-72 sm:w-72"
+            />
+            <div className="comic-border font-display absolute right-0 top-6 rotate-[6deg] rounded-2xl bg-background px-3 py-1 text-xs text-foreground sm:top-10 sm:px-4 sm:py-2 sm:text-lg">
+              "Não erra, hein! 📏😎"
+            </div>
+          </div>
+          <div className="hidden md:block">
+            <Leaderboard refreshKey={boardKey} />
+          </div>
+        </div>
+
+        {/* Text + form */}
+        <div className="order-2 md:order-1">
+          <span className="comic-border font-display inline-block rounded-full bg-primary px-3 py-1 text-sm text-primary-foreground sm:px-4 sm:text-lg">
             🎒 Quiz da escola
           </span>
-          <h1 className="font-display mt-4 text-5xl leading-[0.95] text-foreground sm:text-7xl">
+          <h1 className="font-display mt-3 text-4xl leading-[0.95] text-foreground sm:mt-4 sm:text-7xl">
             ESCOLA DO<br />
             <span className="text-primary drop-shadow-[4px_4px_0_#1a1a2e]">MAYCON LINDÃO</span>
           </h1>
-          <div className="font-display mt-2 inline-block rounded-lg bg-foreground px-3 py-1 text-lg text-background sm:text-xl">
+          <div className="font-display mt-2 inline-block rounded-lg bg-foreground px-3 py-1 text-sm text-background sm:text-xl">
             CETI COSMA RAMOS
           </div>
-          <p className="mt-5 max-w-md text-lg font-semibold text-foreground/80">
-            Digite seu nome e sobreviva à aula respondendo questões de
-            <b> matemática</b> e <b>português</b>. Errou? O <b>MAYCON LINDÃO</b> vem
-            com a <b>régua</b>… 📏
+          <p className="mt-3 max-w-md text-sm font-semibold text-foreground/80 sm:mt-5 sm:text-lg">
+            Digite seu nome e sobreviva à aula. Errou? O <b>MAYCON LINDÃO</b> vem com a <b>régua</b>… 📏
           </p>
 
-          <ul className="mt-5 space-y-2 text-foreground">
-            <li className="flex items-center gap-2"><span className="font-display text-2xl text-primary">❤</span> 3 vidas para não rodar de ano</li>
-            <li className="flex items-center gap-2"><span className="font-display text-2xl text-primary">💡</span> 3 dicas quando travar</li>
-            <li className="flex items-center gap-2"><span className="font-display text-2xl text-primary">🏆</span> 10 pontos por acerto</li>
+          <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-foreground sm:mt-5 sm:flex-col sm:gap-2 sm:text-base">
+            <li className="flex items-center gap-1 sm:gap-2"><span className="font-display text-xl text-primary sm:text-2xl">❤</span> 3 vidas</li>
+            <li className="flex items-center gap-1 sm:gap-2"><span className="font-display text-xl text-primary sm:text-2xl">💡</span> 3 dicas</li>
+            <li className="flex items-center gap-1 sm:gap-2"><span className="font-display text-xl text-primary sm:text-2xl">🏆</span> 10 pontos por acerto</li>
           </ul>
 
-          <div className="mt-6">
-            <label className="font-display block text-2xl text-foreground">SEU NOME:</label>
+          <div className="mt-4 sm:mt-6">
+            <label className="font-display block text-xl text-foreground sm:text-2xl">SEU NOME:</label>
             <input
               value={name}
               onChange={(e) => setName(e.target.value.slice(0, 20))}
               onKeyDown={(e) => { if (e.key === "Enter") handleStartClick(); }}
               placeholder="Digite aqui..."
-              className="comic-border mt-2 w-full max-w-sm rounded-xl bg-background px-4 py-3 text-2xl font-bold text-foreground outline-none placeholder:text-foreground/40"
+              className="comic-border mt-2 w-full max-w-sm rounded-xl bg-background px-4 py-3 text-xl font-bold text-foreground outline-none placeholder:text-foreground/40 sm:text-2xl"
             />
 
             <button
               onClick={handleStartClick}
               disabled={!name.trim()}
-              className="comic-border-lg font-display mt-5 block rounded-2xl bg-primary px-10 py-4 text-3xl text-primary-foreground transition-transform hover:-translate-y-1 hover:rotate-[-1deg] disabled:cursor-not-allowed disabled:opacity-50"
+              className="comic-border-lg font-display mt-4 block rounded-2xl bg-primary px-8 py-3 text-2xl text-primary-foreground transition-transform hover:-translate-y-1 hover:rotate-[-1deg] disabled:cursor-not-allowed disabled:opacity-50 sm:mt-5 sm:px-10 sm:py-4 sm:text-3xl"
             >
               INICIAR ▶
             </button>
           </div>
         </div>
+
+        {/* Leaderboard on mobile — at the bottom so it doesn't crowd the hero */}
+        <div className="order-3 md:hidden">
+          <Leaderboard refreshKey={boardKey} />
+        </div>
+      </div>
 
       {pickingSubject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 animate-flash-bg" onClick={() => setPickingSubject(false)}>
@@ -473,29 +500,6 @@ function StartScreen({ name, setName, subject, setSubject, onStart, boardKey }: 
           </div>
         </div>
       )}
-
-
-
-
-        <div className="flex flex-col gap-4">
-          <div className="relative flex flex-col items-center justify-center">
-            <div className="font-display z-10 mb-2 text-3xl font-bold text-foreground drop-shadow-[3px_3px_0_#1a1a2e] sm:text-4xl">
-              MAYCON LINDÃO
-            </div>
-            <img
-              src={mayconRuler}
-              alt="MAYCON LINDÃO"
-              width={768}
-              height={768}
-              className="animate-float h-56 w-56 object-contain drop-shadow-[8px_8px_0_rgba(26,26,46,0.4)] sm:h-72 sm:w-72"
-            />
-            <div className="comic-border font-display absolute right-0 top-10 rotate-[6deg] rounded-2xl bg-background px-4 py-2 text-lg text-foreground">
-              "Não erra, hein! 📏😎"
-            </div>
-          </div>
-          <Leaderboard refreshKey={boardKey} />
-        </div>
-      </div>
     </div>
   );
 }
